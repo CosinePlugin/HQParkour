@@ -26,16 +26,16 @@ class ParkourCommand {
 
     }
 
-    @CommandExecutor("시작지점", "현재 위치를 파쿠르의 시작 지점으로 설정합니다.", priority = 3)
-    fun setParkourStartPoint(
+    @CommandExecutor("대기지점", "현지 위치를 파쿠르의 대기 지점으로 설정합니다.", priority = 3)
+    fun setParkourWaitPoint(
         player: Player,
         @ArgumentLabel("이름") keyArgument: KeyArgument
     ) {
 
     }
 
-    @CommandExecutor("종료지점", "현재 위치를 파쿠르의 종료 지점으로 설정합니다.", priority = 4)
-    fun setParkourEndPoint(
+    @CommandExecutor("시작지점", "현재 위치를 파쿠르의 시작 지점으로 설정합니다.", priority = 4)
+    fun setParkourStartPoint(
         player: Player,
         @ArgumentLabel("이름") keyArgument: KeyArgument
     ) {
@@ -47,6 +47,14 @@ class ParkourCommand {
         player: Player,
         @ArgumentLabel("이름") keyArgument: KeyArgument,
         @ArgumentLabel("순서") orderArgument: OrderArgument
+    ) {
+
+    }
+
+    @CommandExecutor("종료지점", "현재 위치를 파쿠르의 종료 지점으로 설정합니다.", priority = 4)
+    fun setParkourEndPoint(
+        player: Player,
+        @ArgumentLabel("이름") keyArgument: KeyArgument
     ) {
 
     }

@@ -1,5 +1,7 @@
 package kr.cosine.parkour.data
 
+import org.bukkit.Location
+
 class ParkourPoint() {
 
     constructor(
@@ -17,4 +19,10 @@ class ParkourPoint() {
     fun setPointLocation(order: Int, pointLocation: PointLocation) {
         pointLocationMap[order] = pointLocation
     }
+
+    fun getPointOrderByLocation(location: Location): Int? {
+        return pointLocationMap.entries.firstOrNull { it.value.isEqual(location) }?.key
+    }
+
+    fun getLastPointOrder(): Int = pointLocationMap.keys.max()
 }

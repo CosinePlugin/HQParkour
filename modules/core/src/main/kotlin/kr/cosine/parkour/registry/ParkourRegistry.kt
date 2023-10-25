@@ -18,7 +18,7 @@ class ParkourRegistry {
         parkourMap[key] = parkour
     }
 
-    fun getParkourByLocation(point: Point, order: Int, location: Location): Parkour? {
+    fun findParkourByLocation(point: Point, order: Int, location: Location): Parkour? {
         return parkourMap.values.firstOrNull {
             it.findParkourPoint(point)?.getPointLocation(order)?.isEqual(location) == true
         }
