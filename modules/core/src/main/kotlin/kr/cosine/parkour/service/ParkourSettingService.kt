@@ -7,9 +7,11 @@ import kr.cosine.parkour.data.Parkour
 import kr.cosine.parkour.data.toPointLocation
 import kr.cosine.parkour.enums.Point
 import kr.cosine.parkour.enums.Reason
+import kr.cosine.parkour.extension.upBlockLocation
 import kr.cosine.parkour.registry.ParkourRegistry
 import kr.hqservice.framework.global.core.component.Service
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
 @Service
@@ -61,6 +63,7 @@ class ParkourSettingService(
         val parkour = parkourRegistry.findParkour(key) ?: return Reason.IS_NOT_EXIST_PARKOUR
         val pointLocation = location.toPointLocation(yawAndPitch) ?: return Reason.FAILED_TO_PARSE
         parkour.setParkourPointLocation(point, order, pointLocation)
+        location.upBlockLocation.block.type = Material.STONE_PRESSURE_PLATE
         return Reason.SUCCESSFUL
     }
 

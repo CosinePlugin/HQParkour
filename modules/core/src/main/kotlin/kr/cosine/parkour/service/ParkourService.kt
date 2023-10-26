@@ -67,7 +67,7 @@ class ParkourService(
         when (parkourPlayer.currentPoint) {
             Point.START -> {
                 if (steppedPointOrder != 1) {
-                    player.sendMessage("시작 포인트 안밟음")
+                    player.sendMessage("MIDDLE 1번째 안밟음")
                     return
                 }
                 parkourPlayer.currentPoint = Point.MIDDLE
@@ -75,6 +75,10 @@ class ParkourService(
             Point.MIDDLE -> {
                 // [O] currentMiddlePointOrder(1) == steppedPointOrder(2) - 1
                 // [X] currentMiddlePointOrder(1) =/= steppedPointOrder(3) - 1
+                if (steppedPointOrder <= parkourPlayer.currentMiddlePointOrder) {
+                    player.sendMessage("이미 밟은 곳임")
+                    return
+                }
                 if (parkourPlayer.currentMiddlePointOrder != steppedPointOrder - 1) {
                     player.sendMessage("이전 포인트 안밟음")
                     return
