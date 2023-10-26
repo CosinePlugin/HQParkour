@@ -14,12 +14,10 @@ dependencyResolutionManagement {
         maven("https://maven.hqservice.kr/repository/maven-public")
         maven("https://repo.papermc.io/repository/maven-public/")
     }
-
     versionCatalogs {
         create("libs") {
             library("spigot-api", "org.spigotmc:spigot-api:${getProperty("spigotVersion")}")
             library("paper-api", "io.papermc.paper:paper-api:${getProperty("spigotVersion")}")
-
         }
         create("framework") {
             library("core", "kr.hqservice:hqframework-bukkit-core:${getProperty("hqFrameworkVersion")}")

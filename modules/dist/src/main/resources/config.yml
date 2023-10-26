@@ -1,0 +1,66 @@
+# gradient 적용 방법: <g:c3eb34>내용</g:0ae9f5>
+
+# %prefix%
+prefix: '<g:c3eb34>&l[Parkour]</g:0ae9f5>&f'
+
+# 알림
+announce:
+  # 시작 지점 밟았을 때
+  start-parkour:
+    sound:
+      enabled: true
+      name: 'minecraft:entity.experience_orb.pickup'
+      volume: 1
+      pitch: 1
+    chat:
+      enabled: false
+      broadcast: false
+      message:
+        - '%prefix% 파쿠르 시작!'
+    title:
+      enabled: true
+      title: '%prefix%'
+      sub-title: '파쿠르 시작!'
+      fade-in: 5
+      duration: 20
+      fade-out: 5
+  # 중간 지점 밟았을 때
+  # %order% = 현재 중간 지점 몇 번째인지
+  middle-parkour:
+    sound:
+      enabled: true
+      name: 'minecraft:entity.experience_orb.pickup'
+      volume: 1
+      pitch: 1
+    chat:
+      enabled: false
+      broadcast: false
+      message:
+        - '%prefix% %order%번 체크포인트 통과!'
+    title:
+      enabled: true
+      title: '%prefix%'
+      sub-title: '%order%번 체크포인트 통과!'
+      fade-in: 5
+      duration: 20
+      fade-out: 5
+  # 종료 지점 밟았을 때
+  # %player% = 클리어한 사람 닉네임
+  end-parkour:
+    sound:
+      enabled: true
+      name: 'minecraft:entity.player.levelup'
+      volume: 1
+      pitch: 2
+    chat:
+      enabled: true
+      broadcast: true
+      message:
+        - '%prefix% %player%님이 파쿠르를 클리어했습니다!'
+    title:
+      enabled: true
+      title: '%prefix%'
+      sub-title: '파쿠르를 클리어했습니다!'
+      fade-in: 5
+      duration: 30
+      fade-out: 5

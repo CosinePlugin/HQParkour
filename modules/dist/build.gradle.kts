@@ -15,7 +15,9 @@ bukkitResourceGenerator {
 
 dependencies {
     compileOnly(libs.spigot.api)
-    compileOnly(framework.core)
+    compileOnly(framework.core) {
+        exclude("org.spigotmc", "spigot-api")
+    }
     runtimeOnly(project(":modules:core"))
     runtimeOnly(project(":modules:api"))
 }
