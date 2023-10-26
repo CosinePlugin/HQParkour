@@ -55,7 +55,8 @@ class ParkourConfig(
     }
 
     fun save() {
-        parkourRegistry.getParkourMap().forEach { (key, parkour) ->
+        val changedParkour = parkourRegistry.getParkourMap().filter { it.value.isChanged }
+        changedParkour.forEach { (key, parkour) ->
             config.set("$key.reward", parkour.getReward())
             parkour.getParkourPointMap().forEach { (point, parkourPoint) ->
                 parkourPoint.getPointLocationMap().forEach { (order, pointLocation) ->
@@ -64,7 +65,9 @@ class ParkourConfig(
             }
             parkour.isChanged = false
         }
-        config.save(file)
+        if (changedParkour.isNotEmpty()) {
+            config.save(file)
+        }
     }
 
     suspend fun delete(key: String): Boolean {

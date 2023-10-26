@@ -1,6 +1,5 @@
 package kr.cosine.parkour.command
 
-import kotlinx.coroutines.delay
 import kr.cosine.parkour.HQParkourModule.Companion.prefix
 import kr.cosine.parkour.command.argument.KeyArgument
 import kr.cosine.parkour.command.argument.OrderArgument

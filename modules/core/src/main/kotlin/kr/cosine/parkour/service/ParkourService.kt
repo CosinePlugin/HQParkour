@@ -1,9 +1,9 @@
 package kr.cosine.parkour.service
 
 import kr.cosine.parkour.enums.Point
-import kr.cosine.parkour.extension.downBlockLocation
 import kr.cosine.parkour.registry.ParkourRegistry
 import kr.hqservice.framework.global.core.component.Service
+import org.bukkit.Location
 import org.bukkit.entity.Player
 
 @Service
@@ -11,10 +11,10 @@ class ParkourService(
     private val parkourRegistry: ParkourRegistry
 ) {
 
-    fun stepChecker(player: Player) {
-        stepStartPoint(player)
-        stepMiddlePoint(player)
-        stepEndPoint(player)
+    fun stepChecker(player: Player, location: Location) {
+        stepStartPoint(player, location)
+        stepMiddlePoint(player, location)
+        stepEndPoint(player, location)
     }
 
     fun removeFromParkourPlayer(player: Player) {
@@ -23,8 +23,8 @@ class ParkourService(
         }
     }
 
-    private fun stepStartPoint(player: Player) {
-        val parkour = parkourRegistry.findParkourByLocation(Point.START, player.downBlockLocation) ?: return
+    private fun stepStartPoint(player: Player, location: Location) {
+        val parkour = parkourRegistry.findParkourByLocation(Point.START, location) ?: return
 
         val playerUniqueId = player.uniqueId
         if (parkour.isParkorPlayer(playerUniqueId)) return
@@ -35,8 +35,8 @@ class ParkourService(
         }
     }
 
-    private fun stepEndPoint(player: Player) {
-        val parkour = parkourRegistry.findParkourByLocation(Point.END, player.downBlockLocation) ?: return
+    private fun stepEndPoint(player: Player, location: Location) {
+        val parkour = parkourRegistry.findParkourByLocation(Point.END, location) ?: return
 
         val playerUniqueId = player.uniqueId
         val parkourPlayer = parkour.findParkourPlayer(playerUniqueId) ?: return
@@ -54,15 +54,14 @@ class ParkourService(
         parkour.findParkourPoint(Point.WAIT)?.getPointLocation()?.teleport(player)
     }
 
-    private fun stepMiddlePoint(player: Player) {
-        val playerDownLocation = player.downBlockLocation
-        val parkour = parkourRegistry.findParkourByLocation(Point.MIDDLE, playerDownLocation) ?: return
+    private fun stepMiddlePoint(player: Player, location: Location) {
+        val parkour = parkourRegistry.findParkourByLocation(Point.MIDDLE, location) ?: return
 
         val playerUniqueId = player.uniqueId
         val parkourPlayer = parkour.findParkourPlayer(playerUniqueId) ?: return
 
         val middleParkourPoint = parkour.findParkourPoint(Point.MIDDLE) ?: return
-        val steppedPointOrder = middleParkourPoint.getPointOrderByLocation(playerDownLocation) ?: return
+        val steppedPointOrder = middleParkourPoint.getPointOrderByLocation(location) ?: return
         player.sendMessage("${steppedPointOrder}번 중간 지점 밟음")
 
         when (parkourPlayer.currentPoint) {
