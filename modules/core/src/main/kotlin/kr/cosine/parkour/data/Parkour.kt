@@ -1,19 +1,22 @@
 package kr.cosine.parkour.data
 
 import kr.cosine.parkour.enums.Point
+import org.bukkit.inventory.ItemStack
 import java.util.UUID
 
 class Parkour(
-    val key: String
+    val key: String,
+    private var reward: ItemStack? = null
 ) {
 
     constructor(
         key: String,
+        reward: ItemStack,
         waitPoingLocation: PointLocation,
         startPointLocation: PointLocation,
         endPointLocation: PointLocation,
         middlePointMapLocation: MutableMap<Int, PointLocation>
-    ): this(key) {
+    ): this(key, reward) {
         parkourPointMap[Point.WAIT] = ParkourPoint(waitPoingLocation)
         parkourPointMap[Point.START] = ParkourPoint(startPointLocation)
         parkourPointMap[Point.END] = ParkourPoint(endPointLocation)
@@ -30,16 +33,24 @@ class Parkour(
 
     var isChanged = false
 
+    fun getReward(): ItemStack? = reward?.clone()
+
+    fun setReward(reward: ItemStack) {
+        this.reward = reward.clone()
+    }
+
     fun findParkourPoint(point: Point): ParkourPoint? = parkourPointMap[point]
 
     fun getParkourPoint(point: Point): ParkourPoint = findParkourPoint(point) ?: throw IllegalArgumentException()
 
-    fun setParkourPoint(point: Point, order: Int, pointLocation: PointLocation) {
+    fun setParkourPointLocation(point: Point, order: Int, pointLocation: PointLocation) {
         parkourPointMap.computeIfAbsent(point) {
             ParkourPoint()
         }.setPointLocation(order, pointLocation)
         isChanged = true
     }
+
+    fun getParkourPointMap(): Map<Point, ParkourPoint> = parkourPointMap
 
     fun isParkorPlayer(playerUniqueId: UUID): Boolean = parkourPlayerMap.containsKey(playerUniqueId)
 

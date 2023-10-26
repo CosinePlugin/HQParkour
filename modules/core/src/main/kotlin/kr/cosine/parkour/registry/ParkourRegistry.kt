@@ -10,6 +10,8 @@ class ParkourRegistry {
 
     private val parkourMap = mutableMapOf<String, Parkour>()
 
+    fun isParkour(key: String): Boolean = parkourMap.containsKey(key)
+
     fun findParkour(key: String): Parkour? = parkourMap[key]
 
     fun getParkour(key: String): Parkour = findParkour(key) ?: throw IllegalArgumentException()
@@ -18,9 +20,19 @@ class ParkourRegistry {
         parkourMap[key] = parkour
     }
 
-    fun findParkourByLocation(point: Point, order: Int, location: Location): Parkour? {
+    fun findParkourByLocation(point: Point, location: Location): Parkour? {
         return parkourMap.values.firstOrNull {
-            it.findParkourPoint(point)?.getPointLocation(order)?.isEqual(location) == true
+            it.findParkourPoint(point)?.getPointLocationByLocation(location) != null
         }
+    }
+
+    fun getParkourKeys(): List<String> = getParkourMap().keys.toList()
+
+    fun getParkourValues(): List<Parkour> = getParkourMap().values.toList()
+
+    fun getParkourMap(): Map<String, Parkour> = parkourMap
+
+    fun removeParkour(key: String) {
+        parkourMap.remove(key)
     }
 }

@@ -12,6 +12,8 @@ class ParkourPoint() {
 
     private val pointLocationMap = mutableMapOf<Int, PointLocation>()
 
+    fun isPointLocation(order: Int): Boolean = pointLocationMap.containsKey(order)
+
     fun getPointLocation(order: Int = 1): PointLocation {
         return pointLocationMap[order] ?: throw IllegalArgumentException()
     }
@@ -20,8 +22,18 @@ class ParkourPoint() {
         pointLocationMap[order] = pointLocation
     }
 
+    fun getPointLocationByLocation(location: Location): PointLocation? {
+        return pointLocationMap.values.firstOrNull { it.isEqual(location) }
+    }
+
     fun getPointOrderByLocation(location: Location): Int? {
         return pointLocationMap.entries.firstOrNull { it.value.isEqual(location) }?.key
+    }
+
+    fun getPointLocationMap(): Map<Int, PointLocation> = pointLocationMap
+
+    fun removePointLocation(order: Int) {
+        pointLocationMap.remove(order)
     }
 
     fun getLastPointOrder(): Int = pointLocationMap.keys.max()

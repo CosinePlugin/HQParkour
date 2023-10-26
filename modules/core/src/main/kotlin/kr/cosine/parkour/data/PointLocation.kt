@@ -3,6 +3,7 @@ package kr.cosine.parkour.data
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import java.lang.Exception
 
 data class PointLocation(
     val worldName: String,
@@ -30,9 +31,35 @@ data class PointLocation(
         val location = Location(world, x, y, z, yaw, pitch)
         player.teleport(location)
     }
+
+    fun format(): String {
+        return "world: §7$worldName§f, x: §7$x§f, y: §7$y§f, z: §7$z"
+    }
+
+    override fun toString(): String {
+        return "$worldName, $x, $y, $z, $yaw, $pitch"
+    }
 }
 
-internal fun Location.toPointLocation(): PointLocation? {
+internal fun String.toPointLocation(): PointLocation? {
+    return runCatching {
+        val split = split(", ")
+        val worldName = split[0]
+        val x = split[1].toDouble()
+        val y = split[2].toDouble()
+        val z = split[3].toDouble()
+        val yaw = split[4].toFloat()
+        val pitch = split[5].toFloat()
+        PointLocation(worldName, x, y, z, yaw, pitch)
+    }.getOrNull()
+}
+
+internal fun Location.toPointLocation(yawAndPitch: Boolean): PointLocation? {
     val world = world ?: return null
-    return PointLocation(world.name, blockX, blockY, blockZ)
+    val worldName = world.name
+    return if (yawAndPitch) {
+        PointLocation(worldName, x, y, z, yaw, pitch)
+    } else {
+        PointLocation(worldName, blockX, blockY, blockZ)
+    }
 }

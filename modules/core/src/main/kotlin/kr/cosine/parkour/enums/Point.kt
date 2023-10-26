@@ -4,5 +4,11 @@ enum class Point {
     WAIT,
     START,
     MIDDLE,
-    END
+    END;
+
+    companion object {
+        fun getPoint(pointText: String): Point? {
+            return values().find { it.name == pointText.uppercase() }
+        }
+    }
 }
