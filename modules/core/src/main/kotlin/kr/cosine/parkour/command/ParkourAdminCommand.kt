@@ -77,19 +77,7 @@ class ParkourAdminCommand(
         }
     }
 
-    @CommandExecutor("종료지점", "현재 위치를 파쿠르의 종료 지점으로 설정합니다.", priority = 6)
-    fun setParkourEndPoint(
-        player: Player,
-        @ArgumentLabel("이름") keyArgument: KeyArgument
-    ) {
-        val key = keyArgument.key
-        val reason = parkourSettingService.setParkourEndPoint(key, player.downBlockLocation)
-        execute(player, reason) {
-            player.sendMessage("$prefix 현재 위치를 $key 파쿠르의 종료 지점으로 설정하였습니다.")
-        }
-    }
-
-    @CommandExecutor("중간지점", "현재 위치를 파쿠르의 n번 중간 지점으로 설정합니다.", priority = 7)
+    @CommandExecutor("중간지점", "현재 위치를 파쿠르의 n번 중간 지점으로 설정합니다.", priority = 6)
     fun setParkourMiddlePoint(
         player: Player,
         @ArgumentLabel("이름") keyArgument: KeyArgument,
@@ -103,7 +91,7 @@ class ParkourAdminCommand(
         }
     }
 
-    @CommandExecutor("중간지점제거", "파쿠르의 n번 중간 지점을 제거합니다.", priority = 8)
+    @CommandExecutor("중간지점제거", "파쿠르의 n번 중간 지점을 제거합니다.", priority = 7)
     fun removeParkourMiddlePoint(
         player: Player,
         @ArgumentLabel("이름") keyArgument: KeyArgument,
@@ -114,6 +102,18 @@ class ParkourAdminCommand(
         val reason = parkourSettingService.removeParkourMiddlePoint(key, order)
         execute(player, reason) {
             player.sendMessage("$prefix $key 파쿠르의 ${order}번째 중간 지점을 제거하였습니다.")
+        }
+    }
+
+    @CommandExecutor("종료지점", "현재 위치를 파쿠르의 종료 지점으로 설정합니다.", priority = 8)
+    fun setParkourEndPoint(
+        player: Player,
+        @ArgumentLabel("이름") keyArgument: KeyArgument
+    ) {
+        val key = keyArgument.key
+        val reason = parkourSettingService.setParkourEndPoint(key, player.downBlockLocation)
+        execute(player, reason) {
+            player.sendMessage("$prefix 현재 위치를 $key 파쿠르의 종료 지점으로 설정하였습니다.")
         }
     }
 
