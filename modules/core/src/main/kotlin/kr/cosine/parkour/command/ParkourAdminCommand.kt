@@ -5,7 +5,7 @@ import kr.cosine.parkour.command.argument.OrderArgument
 import kr.cosine.parkour.registry.SettingRegistry.Companion.prefix
 import kr.cosine.parkour.enums.Point
 import kr.cosine.parkour.enums.Reason
-import kr.cosine.parkour.extension.downBlockLocation
+import kr.cosine.parkour.extension.downLocation
 import kr.cosine.parkour.service.ParkourSettingService
 import kr.hqservice.framework.command.ArgumentLabel
 import kr.hqservice.framework.command.Command
@@ -71,7 +71,7 @@ class ParkourAdminCommand(
         @ArgumentLabel("이름") keyArgument: KeyArgument
     ) {
         val key = keyArgument.key
-        val reason = parkourSettingService.setParkourStartPoint(key, player.downBlockLocation)
+        val reason = parkourSettingService.setParkourStartPoint(key, player.downLocation)
         execute(player, reason){
             player.sendMessage("$prefix 현재 위치를 $key 파쿠르의 시작 지점으로 설정하였습니다.")
         }
@@ -85,7 +85,7 @@ class ParkourAdminCommand(
     ) {
         val key = keyArgument.key
         val order = orderArgument.order
-        val reason = parkourSettingService.setParkourMiddlePoint(key, order, player.downBlockLocation)
+        val reason = parkourSettingService.setParkourMiddlePoint(key, order, player.downLocation)
         execute(player, reason) {
             player.sendMessage("$prefix 현재 위치를 $key 파쿠르의 ${order}번째 중간 지점으로 설정하였습니다.")
         }
@@ -111,7 +111,7 @@ class ParkourAdminCommand(
         @ArgumentLabel("이름") keyArgument: KeyArgument
     ) {
         val key = keyArgument.key
-        val reason = parkourSettingService.setParkourEndPoint(key, player.downBlockLocation)
+        val reason = parkourSettingService.setParkourEndPoint(key, player.downLocation)
         execute(player, reason) {
             player.sendMessage("$prefix 현재 위치를 $key 파쿠르의 종료 지점으로 설정하였습니다.")
         }

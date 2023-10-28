@@ -46,7 +46,7 @@ class ParkourSettingService(
     }
 
     fun setParkourWaitPoint(key: String, location: Location): Reason {
-        return setParkourPoint(key, Point.WAIT, 1, location, true)
+        return setParkourPoint(key, Point.WAIT, 1, location, false)
     }
 
     fun setParkourStartPoint(key: String, location: Location): Reason {
@@ -61,11 +61,13 @@ class ParkourSettingService(
         return setParkourPoint(key, Point.MIDDLE, order, location)
     }
 
-    private fun setParkourPoint(key: String, point: Point, order: Int, location: Location, yawAndPitch: Boolean =false): Reason {
+    private fun setParkourPoint(key: String, point: Point, order: Int, location: Location, setBlock: Boolean = true): Reason {
         val parkour = parkourRegistry.findParkour(key) ?: return Reason.IS_NOT_EXIST_PARKOUR
-        val pointLocation = location.toPointLocation(yawAndPitch) ?: return Reason.FAILED_TO_PARSE
+        val pointLocation = location.toPointLocation() ?: return Reason.FAILED_TO_PARSE
         parkour.setParkourPointLocation(point, order, pointLocation)
-        location.upBlockLocation.block.type = Material.STONE_PRESSURE_PLATE
+        if (setBlock) {
+            location.upBlockLocation.block.type = Material.STONE_PRESSURE_PLATE
+        }
         return Reason.SUCCESSFUL
     }
 

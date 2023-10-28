@@ -3,7 +3,6 @@ package kr.cosine.parkour.data
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import java.lang.Exception
 
 data class PointLocation(
     val worldName: String,
@@ -18,22 +17,28 @@ data class PointLocation(
         worldName: String,
         x: Int,
         y: Int,
-        z: Int
-    ): this(worldName, x.toDouble(), y.toDouble(), z.toDouble())
+        z: Int,
+        yaw: Float,
+        pitch: Float
+    ): this(worldName, x.toDouble(), y.toDouble(), z.toDouble(), yaw, pitch)
 
     fun isEqual(location: Location): Boolean {
         val world = location.world ?: return false
         return world.name == worldName && location.blockX == x.toInt() && location.blockY == y.toInt() && location.blockZ == z.toInt()
     }
 
-    fun teleport(player: Player) {
+    fun teleport(player: Player, plusX: Double = 0.5, plusY: Double = 1.0, plusZ: Double = 0.5) {
         val world = Bukkit.getWorld(worldName) ?: return
-        val location = Location(world, x, y, z, yaw, pitch)
+        val location = Location(world, x + plusX, y + plusY, z + plusZ, yaw, pitch)
         player.teleport(location)
     }
 
     fun format(): String {
-        return "world: §7$worldName§f, x: §7$x§f, y: §7$y§f, z: §7$z"
+        return "world: §7$worldName§f, x: §7$x§f, y: §7$y§f, z: §7$z, yaw: §7${yaw.slice()}, pitch: §7${pitch.slice()}"
+    }
+
+    private fun Float.slice(): String {
+        return toString().run { if (length > 4) substring(0..4) else this }
     }
 
     override fun toString(): String {
@@ -54,12 +59,8 @@ internal fun String.toPointLocation(): PointLocation? {
     }.getOrNull()
 }
 
-internal fun Location.toPointLocation(yawAndPitch: Boolean): PointLocation? {
+internal fun Location.toPointLocation(): PointLocation? {
     val world = world ?: return null
     val worldName = world.name
-    return if (yawAndPitch) {
-        PointLocation(worldName, x, y, z, yaw, pitch)
-    } else {
-        PointLocation(worldName, blockX, blockY, blockZ)
-    }
+    return PointLocation(worldName, blockX, blockY, blockZ, yaw, pitch)
 }

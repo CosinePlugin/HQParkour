@@ -6,7 +6,8 @@ enum class MessageType {
     STEPPED_POINT,
     REWARD_TO_INVENTORY,
     REWARD_TO_GIFTBOX,
-    PARKOUR_KEY_INFO;
+    PARKOUR_KEY_INFO,
+    GIVE_UP_PARKOUR;
 
     companion object {
         fun getError(messageText: String): MessageType? {

@@ -4,6 +4,7 @@ import kr.cosine.parkour.data.Parkour
 import kr.cosine.parkour.enums.Point
 import kr.hqservice.framework.global.core.component.Bean
 import org.bukkit.Location
+import java.util.UUID
 
 @Bean
 class ParkourRegistry {
@@ -18,6 +19,12 @@ class ParkourRegistry {
 
     fun setParkour(key: String, parkour: Parkour) {
         parkourMap[key] = parkour
+    }
+
+    fun findParkourByPlayer(playerUniqueId: UUID): Parkour? {
+        return parkourMap.values.firstOrNull {
+            it.isParkorPlayer(playerUniqueId)
+        }
     }
 
     fun findParkourByLocation(point: Point, location: Location): Parkour? {

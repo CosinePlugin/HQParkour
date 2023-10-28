@@ -7,6 +7,8 @@ data class Message(
 ) {
 
     fun sendMessage(player: Player) {
-        player.sendMessage(message)
+        if (message.isNotEmpty()) {
+            player.sendMessage(message)
+        }
     }
 }

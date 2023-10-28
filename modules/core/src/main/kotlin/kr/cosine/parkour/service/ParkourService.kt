@@ -1,6 +1,5 @@
 package kr.cosine.parkour.service
 
-import kr.cosine.parkour.data.Message
 import kr.cosine.parkour.enums.Announce
 import kr.cosine.parkour.enums.MessageType
 import kr.cosine.parkour.enums.Point
@@ -12,7 +11,6 @@ import kr.hqservice.framework.global.core.component.Service
 import kr.hqservice.giftbox.api.GiftBoxAPI
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import java.util.concurrent.TimeUnit
 
 @Service
 class ParkourService(
@@ -32,9 +30,40 @@ class ParkourService(
     }
 
     fun removeFromParkourPlayer(player: Player) {
+        val playerUniqueId = player.uniqueId
         parkourRegistry.getParkourValues().forEach {
-            it.removeParkourPlayer(player.uniqueId)
+            it.removeParkourPlayer(playerUniqueId)
         }
+    }
+
+    fun parkourKeyAction(player: Player, slot: Int): Boolean {
+        val playerUniqueId = player.uniqueId
+        val parkour = parkourRegistry.findParkourByPlayer(playerUniqueId) ?: return false
+        val parkourPlayer = parkour.getParkourPlayer(playerUniqueId)
+        when (slot) {
+            0 -> {
+                when (val point = parkourPlayer.currentPoint) {
+                    Point.START -> {
+                        val parkourPoint = parkour.getParkourPoint(point)
+                        parkourPoint.getPointLocation().teleport(player)
+                    }
+                    Point.MIDDLE -> {
+                        val parkourPoint = parkour.getParkourPoint(point)
+                        val currentMiddlePointOrder = parkourPlayer.currentMiddlePointOrder
+                        parkourPoint.getPointLocation(currentMiddlePointOrder).teleport(player)
+                    }
+                    else -> {}
+                }
+            }
+            1 -> {
+                val waitParkourPoint = parkour.getParkourPoint(Point.WAIT)
+                waitParkourPoint.getPointLocation().teleport(player, plusY = 0.0)
+                parkour.removeParkourPlayer(playerUniqueId)
+                messageRegistry.getMessage(MessageType.GIVE_UP_PARKOUR).sendMessage(player)
+            }
+            else -> {}
+        }
+        return true
     }
 
     private fun stepStartPoint(player: Player, location: Location) {
@@ -45,6 +74,7 @@ class ParkourService(
             messageRegistry.getMessage(MessageType.PARKOUR_STARTED).sendMessage(player)
             return
         }
+        player.inventory.heldItemSlot = 4
         announceRegistry.getParkourAnnounce(Announce.START_PARKOUR).announce(player)
         messageRegistry.getMessage(MessageType.PARKOUR_KEY_INFO).sendMessage(player)
         parkour.setParkourPlayer(playerUniqueId).apply {
@@ -112,7 +142,7 @@ class ParkourService(
             return
         }
         parkour.removeParkourPlayer(playerUniqueId)
-        parkour.findParkourPoint(Point.WAIT)?.getPointLocation()?.teleport(player)
+        parkour.findParkourPoint(Point.WAIT)?.getPointLocation()?.teleport(player, plusY = 0.0)
         announceRegistry.getParkourAnnounce(Announce.END_PARKOUR).apply {
             val replaceFunction: (String) -> String = {
                 it.replace("%player%", player.name)

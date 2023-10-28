@@ -7,21 +7,13 @@ import kr.hqservice.framework.bukkit.core.listener.Subscribe
 import org.bukkit.Material
 import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.event.player.PlayerItemHeldEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
 @Listener
 class ParkourListener(
     private val parkourService: ParkourService
 ) {
-
-    /*@Subscribe
-    fun onMove(event: PlayerMoveEvent) {
-        val fromLocation = event.from
-        val toLocation = event.to ?: return
-        if (fromLocation.x == toLocation.x && fromLocation.y == toLocation.y && fromLocation.z == toLocation.z) return
-        parkourService.stepChecker(event.player)
-    }*/
 
     @Subscribe
     fun onInteract(event: PlayerInteractEvent) {
@@ -34,5 +26,12 @@ class ParkourListener(
     @Subscribe
     fun onQuit(event: PlayerQuitEvent) {
         parkourService.removeFromParkourPlayer(event.player)
+    }
+
+    @Subscribe
+    fun onPress(event: PlayerItemHeldEvent) {
+        if (parkourService.parkourKeyAction(event.player, event.newSlot)) {
+            event.isCancelled = true
+        }
     }
 }
