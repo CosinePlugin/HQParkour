@@ -2,7 +2,7 @@ package kr.cosine.parkour.command
 
 import kr.cosine.parkour.command.argument.KeyArgument
 import kr.cosine.parkour.command.argument.OrderArgument
-import kr.cosine.parkour.config.SettingConfig.Companion.prefix
+import kr.cosine.parkour.registry.SettingRegistry.Companion.prefix
 import kr.cosine.parkour.enums.Point
 import kr.cosine.parkour.enums.Reason
 import kr.cosine.parkour.extension.downBlockLocation

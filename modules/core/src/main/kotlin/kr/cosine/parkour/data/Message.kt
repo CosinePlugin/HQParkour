@@ -2,7 +2,7 @@ package kr.cosine.parkour.data
 
 import org.bukkit.entity.Player
 
-data class ErrorMessage(
+data class Message(
     private val message: String
 ) {
 

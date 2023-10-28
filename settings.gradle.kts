@@ -27,6 +27,9 @@ dependencyResolutionManagement {
             library("database", "kr.hqservice:hqframework-bukkit-database:${getProperty("hqFrameworkVersion")}")
             library("scheduler", "kr.hqservice:hqframework-bukkit-scheduler:${getProperty("hqFrameworkVersion")}")
         }
+        create("hq") {
+            library("giftBox", "kr.hqservice:hqgiftbox-api:${getProperty("giftBoxVersion")}")
+        }
     }
 }
 

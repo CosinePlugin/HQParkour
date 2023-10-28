@@ -1,6 +1,6 @@
 package kr.cosine.parkour.command.provider
 
-import kr.cosine.parkour.config.SettingConfig.Companion.prefix
+import kr.cosine.parkour.registry.SettingRegistry.Companion.prefix
 import kr.cosine.parkour.command.argument.OrderArgument
 import kr.hqservice.framework.command.CommandArgumentProvider
 import kr.hqservice.framework.command.CommandContext

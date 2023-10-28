@@ -2,16 +2,20 @@
 
 setting:
   # %prefix%
-  prefix: '<g:c3eb34>&l[Parkour]</g:0ae9f5>&f'
+  prefix: "<g:c3eb34>&l[Parkour]</g:0ae9f5>&f"
 
-  # 보상을 HQGiftBox로 보낼지 (끌 시 인벤토리로 지급)
+  # 보상을 HQGiftBox로 보낼지 (false일 시 인벤토리로 지급)
   use-giftbox: false
 
-# 에러 메시지
+# 메시지
+# \n = 줄바꿈
 message:
-  parkour-started: '%prefix% 이미 파쿠르를 시작한 상태입니다.'
-  not-stepped-before-point: '%prefix% 아직 이전 포인트를 지나지 않았습니다.'
-  stepped-point: '%prefix% 이미 지나간 포인트입니다.'
+  parkour-started: "%prefix% 이미 파쿠르를 시작한 상태입니다."
+  not-stepped-before-point: "%prefix% 아직 이전 포인트를 지나지 않았습니다."
+  stepped-point: "%prefix% 이미 지나간 포인트입니다."
+  reward-to-inventory: "%prefix% 파쿠르 보상이 인벤토리로 지급되었습니다."
+  reward-to-giftbox: "%prefix% 파쿠르 보상이 선물함으로 지급되었습니다."
+  parkour-key-info: "&7└ 1번 키: 시작 지점으로 이동\n└ 2번 키: 마지막 체크포인트로 이동\n└ 3번 키: 파쿠르 종료"
 
 # 알림
 announce:
@@ -19,17 +23,17 @@ announce:
   start-parkour:
     sound:
       enabled: true
-      name: 'minecraft:entity.experience_orb.pickup'
+      name: "minecraft:entity.experience_orb.pickup"
       volume: 1
       pitch: 1
     chat:
       enabled: false
       broadcast: false
-      message: '%prefix% 파쿠르 시작!'
+      message: "%prefix% 파쿠르 시작!"
     title:
       enabled: true
-      title: '%prefix%'
-      sub-title: '파쿠르 시작!'
+      title: "%prefix%"
+      sub-title: "파쿠르 시작!"
       fade-in: 5
       duration: 20
       fade-out: 5
@@ -38,17 +42,17 @@ announce:
   middle-parkour:
     sound:
       enabled: true
-      name: 'minecraft:entity.experience_orb.pickup'
+      name: "minecraft:entity.experience_orb.pickup"
       volume: 1
       pitch: 1
     chat:
       enabled: false
       broadcast: false
-      message: '%prefix% %order%번 체크포인트 통과!'
+      message: "%prefix% %order%번 체크포인트 통과!"
     title:
       enabled: true
-      title: '%prefix%'
-      sub-title: '%order%번 체크포인트 통과!'
+      title: "%prefix%"
+      sub-title: "%order%번 체크포인트 통과!"
       fade-in: 5
       duration: 20
       fade-out: 5
@@ -58,17 +62,17 @@ announce:
   end-parkour:
     sound:
       enabled: true
-      name: 'minecraft:entity.player.levelup'
+      name: "minecraft:entity.player.levelup"
       volume: 1
       pitch: 2
     chat:
       enabled: true
       broadcast: true
-      message: '%prefix% %player%님이 파쿠르를 클리어했습니다! §7(걸린 시간: %time%)'
+      message: "%prefix% %player%님이 파쿠르를 클리어했습니다! §7(걸린 시간: %time%)"
     title:
       enabled: true
-      title: '%prefix%'
-      sub-title: '파쿠르를 클리어했습니다! §7(걸린 시간: %time%)'
+      title: "%prefix%"
+      sub-title: "파쿠르를 클리어했습니다! §7(걸린 시간: %time%)"
       fade-in: 5
       duration: 30
       fade-out: 5

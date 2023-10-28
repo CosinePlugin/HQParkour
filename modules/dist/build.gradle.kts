@@ -10,14 +10,13 @@ bukkitResourceGenerator {
     name = pluginName
     apiVersion = "1.18"
     depend = listOf("HQFramework")
+    softDepend = listOf("HQGiftBox")
     libraries = excludedRuntimeDependencies()
 }
 
 dependencies {
     compileOnly(libs.spigot.api)
-    compileOnly(framework.core) {
-        exclude("org.spigotmc", "spigot-api")
-    }
+    compileOnly(framework.core) { exclude("org.spigotmc", "spigot-api") }
     runtimeOnly(project(":modules:core"))
     runtimeOnly(project(":modules:api"))
 }

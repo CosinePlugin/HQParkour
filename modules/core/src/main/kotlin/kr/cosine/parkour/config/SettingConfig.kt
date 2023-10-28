@@ -4,11 +4,13 @@ import kr.cosine.parkour.announce.ParkourAnnounce
 import kr.cosine.parkour.announce.ParkourChat
 import kr.cosine.parkour.announce.ParkourSound
 import kr.cosine.parkour.announce.ParkourTitle
-import kr.cosine.parkour.data.ErrorMessage
+import kr.cosine.parkour.data.Message
 import kr.cosine.parkour.enums.Announce
-import kr.cosine.parkour.enums.Error
+import kr.cosine.parkour.enums.MessageType
 import kr.cosine.parkour.registry.AnnounceRegistry
-import kr.cosine.parkour.registry.ErrorMessageRegistry
+import kr.cosine.parkour.registry.MessageRegistry
+import kr.cosine.parkour.registry.SettingRegistry
+import kr.cosine.parkour.registry.SettingRegistry.Companion.prefix
 import kr.hqservice.framework.bukkit.core.extension.colorize
 import kr.hqservice.framework.global.core.component.Bean
 import kr.hqservice.framework.yaml.config.HQYamlConfiguration
@@ -18,17 +20,10 @@ import java.util.logging.Logger
 class SettingConfig(
     private val logger: Logger,
     private val config: HQYamlConfiguration,
-    private val errorMessageRegistry: ErrorMessageRegistry,
+    private val settingRegistry: SettingRegistry,
+    private val messageRegistry: MessageRegistry,
     private val announceRegistry: AnnounceRegistry
 ) {
-
-    internal companion object {
-        var prefix = "<g:c3eb34>§l[Parkour]</g:0ae9f5>§f".colorize()
-            private set
-    }
-
-    var useGiftBox = false
-        private set
 
     fun load() {
         loadSettingSection()
@@ -38,8 +33,9 @@ class SettingConfig(
 
     private fun loadSettingSection() {
         config.getSection("setting")?.apply {
-            prefix = config.getString("prefix").colorize()
-            useGiftBox = config.getBoolean("use-giftbox")
+            prefix = getString("prefix").colorize()
+            val useGiftBox = getBoolean("use-giftbox")
+            settingRegistry.setUseGiftBox(useGiftBox)
         }
     }
 
@@ -47,13 +43,13 @@ class SettingConfig(
         val messageSectionKey = "message"
         config.getSection(messageSectionKey)?.apply {
             getKeys().forEach { errorText ->
-                val error = Error.getError(errorText) ?: run {
+                val error = MessageType.getError(errorText) ?: run {
                     logger.warning("$messageSectionKey 섹션에 ${errorText}은(는) 존재하지 않는 Error입니다.")
                     return@forEach
                 }
                 val message = getString(errorText).applyPrefix()
-                val errorMessage = ErrorMessage(message)
-                errorMessageRegistry.setErrorMessage(error, errorMessage)
+                val errorMessage = Message(message)
+                messageRegistry.setMessage(error, errorMessage)
             }
         }
     }
@@ -117,7 +113,7 @@ class SettingConfig(
 
     fun reload() {
         config.reload()
-        errorMessageRegistry.clear()
+        messageRegistry.clear()
         announceRegistry.clear()
         load()
     }

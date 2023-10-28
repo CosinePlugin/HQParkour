@@ -1,6 +1,6 @@
 package kr.cosine.parkour.enums
 
-import kr.cosine.parkour.config.SettingConfig.Companion.prefix
+import kr.cosine.parkour.registry.SettingRegistry.Companion.prefix
 
 enum class Reason(val message: String) {
     SUCCESSFUL(""),
