@@ -1,8 +1,8 @@
 package kr.cosine.parkour.command
 
-import kr.cosine.parkour.HQParkourModule.Companion.prefix
 import kr.cosine.parkour.command.argument.KeyArgument
 import kr.cosine.parkour.command.argument.OrderArgument
+import kr.cosine.parkour.config.SettingConfig.Companion.prefix
 import kr.cosine.parkour.enums.Point
 import kr.cosine.parkour.enums.Reason
 import kr.cosine.parkour.extension.downBlockLocation
@@ -155,5 +155,11 @@ class ParkourAdminCommand(
             Reason.SUCCESSFUL -> successfulFunction()
             else -> player.sendMessage(reason.message)
         }
+    }
+
+    @CommandExecutor("리로드", "config.yml을 리로드합니다.", priority = 11)
+    fun reload(player: Player) {
+        parkourSettingService.reload()
+        player.sendMessage("$prefix config.yml을 리로드하였습니다.")
     }
 }

@@ -1,7 +1,11 @@
 # gradient 적용 방법: <g:c3eb34>내용</g:0ae9f5>
 
-# %prefix%
-prefix: '<g:c3eb34>&l[Parkour]</g:0ae9f5>&f'
+setting:
+  # %prefix%
+  prefix: '<g:c3eb34>&l[Parkour]</g:0ae9f5>&f'
+
+  # 보상을 HQGiftBox로 보낼지 (끌 시 인벤토리로 지급)
+  use-giftbox: false
 
 # 에러 메시지
 message:

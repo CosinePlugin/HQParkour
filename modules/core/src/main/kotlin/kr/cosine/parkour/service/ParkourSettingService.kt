@@ -3,6 +3,7 @@ package kr.cosine.parkour.service
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kr.cosine.parkour.config.ParkourConfig
+import kr.cosine.parkour.config.SettingConfig
 import kr.cosine.parkour.data.Parkour
 import kr.cosine.parkour.data.toPointLocation
 import kr.cosine.parkour.enums.Point
@@ -16,6 +17,7 @@ import org.bukkit.inventory.ItemStack
 
 @Service
 class ParkourSettingService(
+    private val settingConfig: SettingConfig,
     private val parkourRegistry: ParkourRegistry,
     private val parkourConfig: ParkourConfig
 ) {
@@ -83,5 +85,9 @@ class ParkourSettingService(
         withContext(Dispatchers.IO) {
             parkourConfig.save()
         }
+    }
+
+    fun reload() {
+        settingConfig.reload()
     }
 }
