@@ -4,7 +4,6 @@ import kr.cosine.parkour.registry.SettingRegistry.Companion.prefix
 
 enum class Reason(val message: String) {
     SUCCESSFUL(""),
-    FAIL(""),
     REQUIRED_ITEM_IN_HAND("$prefix 손에 아이템을 들어주세요."),
     IS_EXIST_PARKOUR("$prefix 이미 존재하는 파쿠르입니다."),
     IS_NOT_EXIST_PARKOUR("$prefix 존재하지 않는 파쿠르입니다."),

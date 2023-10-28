@@ -31,11 +31,8 @@ class ParkourSettingService(
 
     suspend fun deleteParkour(key: String): Reason {
         if (!parkourRegistry.isParkour(key)) return Reason.IS_NOT_EXIST_PARKOUR
-        return if (parkourConfig.delete(key)) {
-            Reason.SUCCESSFUL
-        } else {
-            Reason.FAIL
-        }
+        parkourConfig.delete(key)
+        return Reason.SUCCESSFUL
     }
 
     fun setParkourReward(key: String, itemStack: ItemStack): Reason {

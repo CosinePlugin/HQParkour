@@ -70,13 +70,11 @@ class ParkourConfig(
         }
     }
 
-    suspend fun delete(key: String): Boolean {
-        return withContext(Dispatchers.IO) {
-            val isSuccessful = File(file, "$key.yml").delete()
-            if (isSuccessful) {
-                parkourRegistry.removeParkour(key)
-            }
-            isSuccessful
+    suspend fun delete(key: String) {
+        parkourRegistry.removeParkour(key)
+        withContext(Dispatchers.IO) {
+            config.set(key, null)
+            config.save(file)
         }
     }
 }

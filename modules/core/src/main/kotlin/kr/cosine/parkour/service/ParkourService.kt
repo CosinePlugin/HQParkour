@@ -31,9 +31,9 @@ class ParkourService(
 
     fun removeFromParkourPlayer(player: Player) {
         val playerUniqueId = player.uniqueId
-        parkourRegistry.getParkourValues().forEach {
-            it.removeParkourPlayer(playerUniqueId)
-        }
+        val parkour = parkourRegistry.findParkourByPlayer(playerUniqueId) ?: return
+        parkour.removeParkourPlayer(playerUniqueId)
+        parkour.getParkourPoint(Point.WAIT).getPointLocation().teleport(player, plusY = 0.0)
     }
 
     fun parkourKeyAction(player: Player, slot: Int): Boolean {
