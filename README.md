@@ -10,6 +10,9 @@
 ## 필수 플러그인
 *  [HQFramework](https://github.com/HQService/HQFramework)
 
+## 선물함 플러그인
+* [HQGiftBox](https://discord.com/channels/851306317557530646/1166845785313386537)
+
 ## 버전
 * 1.18~1.20.2
 
