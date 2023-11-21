@@ -1,0 +1,93 @@
+config-version: 1
+
+# gradient 적용 방법: <g:c3eb34>내용</g:0ae9f5>
+
+setting:
+  # %prefix%
+  prefix: "<g:c3eb34>&l[Parkour]</g:0ae9f5>&f"
+
+  # 보상을 HQGiftBox로 보낼지 (false일 시 인벤토리로 지급)
+  use-giftbox: false
+
+  # 파쿠르 중 명령어 사용을 막을건지
+  prevented-command: false
+
+placeholder:
+  # 기록 없을 때 표시할 메시지
+  recorded-none: "&f기록되지 않음"
+  # 랭킹에 띄울 메시지
+  # %player% = 유저
+  # %time% = 걸린 시간
+  ranking: "&f%player%: &a%time%"
+
+# 메시지
+# \n = 줄바꿈
+message:
+  parkour-started: "%prefix% 이미 파쿠르를 시작한 상태입니다."
+  not-stepped-before-point: "%prefix% 아직 이전 포인트를 지나지 않았습니다."
+  stepped-point: "%prefix% 이미 지나간 포인트입니다."
+  reward-to-inventory: "%prefix% 파쿠르 보상이 인벤토리로 지급되었습니다."
+  reward-to-giftbox: "%prefix% 파쿠르 보상이 선물함으로 지급되었습니다."
+  parkour-key-info: "&7└ 1번 키: 마지막 체크포인트로 이동합니다.\n└ 2번 키: 파쿠르를 포기합니다."
+  give-up-parkour: "%prefix% 파쿠르를 포기하였습니다."
+  prevented-command: "%prefix% 파쿠르 중에는 명령어를 입력할 수 없습니다."
+
+# 알림
+announce:
+  # 시작 지점 밟았을 때
+  start-parkour:
+    sound:
+      enabled: true
+      name: "minecraft:entity.experience_orb.pickup"
+      volume: 1
+      pitch: 1
+    chat:
+      enabled: false
+      broadcast: false
+      message: "%prefix% 파쿠르 시작!"
+    title:
+      enabled: true
+      title: "%prefix%"
+      sub-title: "파쿠르 시작!"
+      fade-in: 5
+      duration: 20
+      fade-out: 5
+  # 중간 지점 밟았을 때
+  # %order% = 현재 중간 지점 몇 번째인지
+  middle-parkour:
+    sound:
+      enabled: true
+      name: "minecraft:entity.experience_orb.pickup"
+      volume: 1
+      pitch: 1
+    chat:
+      enabled: false
+      broadcast: false
+      message: "%prefix% %order%번 체크포인트 통과!"
+    title:
+      enabled: true
+      title: "%prefix%"
+      sub-title: "%order%번 체크포인트 통과!"
+      fade-in: 5
+      duration: 20
+      fade-out: 5
+  # 종료 지점 밟았을 때
+  # %player% = 닉네임
+  # %time% = 걸린 시간
+  end-parkour:
+    sound:
+      enabled: true
+      name: "minecraft:entity.player.levelup"
+      volume: 1
+      pitch: 2
+    chat:
+      enabled: true
+      broadcast: true
+      message: "%prefix% %player%님이 파쿠르를 클리어했습니다! §7(걸린 시간: %time%)"
+    title:
+      enabled: true
+      title: "%prefix%"
+      sub-title: "파쿠르를 클리어했습니다! §7(걸린 시간: %time%)"
+      fade-in: 5
+      duration: 30
+      fade-out: 5
