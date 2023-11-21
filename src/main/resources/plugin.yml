@@ -1,0 +1,10 @@
+name: HQParkour
+main: kr.cosine.parkour.HQParkour
+version: 1.0.1
+api-version: 1.17
+author: Cosine_A
+depend:
+  - HQFramework
+softdepend:
+  - HQGiftBox
+  - PlaceholderAPI
