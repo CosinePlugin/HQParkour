@@ -14,11 +14,11 @@ setting:
 
 placeholder:
   # 기록 없을 때 표시할 메시지
-  recorded-none: "기록되지 않음"
+  recorded-none: "&f기록되지 않음"
   # 랭킹에 띄울 메시지
   # %player% = 유저
   # %time% = 걸린 시간
-  ranking: "%player% : %time%"
+  ranking: "&f%player%: &a%time%"
 
 # 메시지
 # \n = 줄바꿈
