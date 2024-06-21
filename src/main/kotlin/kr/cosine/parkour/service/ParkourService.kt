@@ -3,15 +3,20 @@ package kr.cosine.parkour.service
 import kr.cosine.parkour.enums.Announce
 import kr.cosine.parkour.enums.MessageType
 import kr.cosine.parkour.enums.Point
+import kr.cosine.parkour.event.ParkourSuccessEvent
 import kr.cosine.parkour.extension.toKoreanTimeFormat
 import kr.cosine.parkour.registry.*
 import kr.hqservice.framework.global.core.component.Service
 import kr.hqservice.giftbox.api.GiftBoxAPI
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
+import org.bukkit.plugin.PluginManager
 
 @Service
 class ParkourService(
+    private val pluginManager: PluginManager,
     private val settingRegistry: SettingRegistry,
     private val messageRegistry: MessageRegistry,
     private val announceRegistry: AnnounceRegistry,
@@ -56,20 +61,24 @@ class ParkourService(
                         val parkourPoint = parkour.getParkourPoint(point)
                         parkourPoint.getPointLocation().teleport(player)
                     }
+
                     Point.MIDDLE -> {
                         val parkourPoint = parkour.getParkourPoint(point)
                         val currentMiddlePointOrder = parkourPlayer.currentMiddlePointOrder
                         parkourPoint.getPointLocation(currentMiddlePointOrder).teleport(player)
                     }
+
                     else -> {}
                 }
             }
+
             1 -> {
                 val waitParkourPoint = parkour.getParkourPoint(Point.WAIT)
                 waitParkourPoint.getPointLocation().teleport(player, plusY = 0.0)
                 parkour.removeParkourPlayer(playerUniqueId)
                 messageRegistry.getMessage(MessageType.GIVE_UP_PARKOUR).sendMessage(player)
             }
+
             else -> {}
         }
         return true
@@ -109,6 +118,7 @@ class ParkourService(
                 parkourPlayer.currentPoint = Point.MIDDLE
                 player.sendMiddleParkourMessage(parkourPlayer.currentMiddlePointOrder)
             }
+
             Point.MIDDLE -> {
                 // [O] currentMiddlePointOrder(1) == steppedPointOrder(2) - 1
                 // [X] currentMiddlePointOrder(1) =/= steppedPointOrder(3) - 1
@@ -123,6 +133,7 @@ class ParkourService(
                 parkourPlayer.currentMiddlePointOrder = steppedPointOrder
                 player.sendMiddleParkourMessage(parkourPlayer.currentMiddlePointOrder)
             }
+
             else -> {}
         }
     }
@@ -163,15 +174,19 @@ class ParkourService(
             title.sendTitle(player, replaceFunction)
         }
         parkourRankingRegistry.setRanking(playerUniqueId, time)
-        parkour.getReward()?.also { itemStack ->
-            if (settingRegistry.useGiftBox) {
-                val giftBox = giftBoxFactory.of("§e파쿠르 보상", listOf("§f파쿠르 클리어를 축하드립니다!"), itemStack)
-                giftBoxService.send(playerUniqueId, giftBox)
-                messageRegistry.getMessage(MessageType.REWARD_TO_GIFTBOX).sendMessage(player)
-            } else {
-                player.inventory.addItem(itemStack)
-                messageRegistry.getMessage(MessageType.REWARD_TO_INVENTORY).sendMessage(player)
-            }
+
+        val reward = parkour.getReward()
+        val parkourSuccessEvent = ParkourSuccessEvent(player, parkour.key, reward, time)
+        pluginManager.callEvent(parkourSuccessEvent)
+        if (parkourSuccessEvent.isCancelled || reward == null) return
+
+        if (settingRegistry.useGiftBox) {
+            val giftBox = giftBoxFactory.of("§e파쿠르 보상", listOf("§f파쿠르 클리어를 축하드립니다!"), reward)
+            giftBoxService.send(playerUniqueId, giftBox)
+            messageRegistry.getMessage(MessageType.REWARD_TO_GIFTBOX).sendMessage(player)
+        } else {
+            player.inventory.addItem(reward)
+            messageRegistry.getMessage(MessageType.REWARD_TO_INVENTORY).sendMessage(player)
         }
     }
 }

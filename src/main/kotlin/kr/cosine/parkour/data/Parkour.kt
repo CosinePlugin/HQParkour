@@ -36,7 +36,8 @@ class Parkour(
     fun getReward(): ItemStack? = reward?.clone()
 
     fun setReward(reward: ItemStack) {
-        this.reward = reward.clone()
+        this.reward = reward
+        isChanged = true
     }
 
     fun findParkourPoint(point: Point): ParkourPoint? = parkourPointMap[point]

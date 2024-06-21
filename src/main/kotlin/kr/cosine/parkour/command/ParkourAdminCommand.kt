@@ -47,7 +47,7 @@ class ParkourAdminCommand(
         @ArgumentLabel("이름") keyArgument: KeyArgument
     ) {
         val key = keyArgument.key
-        val reason = parkourSettingService.setParkourReward(key, player.inventory.itemInMainHand)
+        val reason = parkourSettingService.setParkourReward(key, player.inventory.itemInMainHand.clone())
         execute(player, reason) {
             player.sendMessage("$prefix $key 파쿠르의 보상을 설정하였습니다.")
         }
