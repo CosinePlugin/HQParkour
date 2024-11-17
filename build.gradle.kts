@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "kr.cosine.parkour"
-version = "1.2.0"
+version = "1.2.1"
 
 repositories {
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")

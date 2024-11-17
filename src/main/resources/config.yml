@@ -28,7 +28,7 @@ message:
   stepped-point: "%prefix% 이미 지나간 포인트입니다."
   reward-to-inventory: "%prefix% 파쿠르 보상이 인벤토리로 지급되었습니다."
   reward-to-giftbox: "%prefix% 파쿠르 보상이 선물함으로 지급되었습니다."
-  parkour-key-info: "&7└ 1번 키: 마지막 체크포인트로 이동합니다.\n└ 2번 키: 파쿠르를 포기합니다."
+  parkour-key-info: "%prefix% 파쿠르가 시작되었습니다.\n&7└ 1번 키: 마지막 체크포인트로 이동합니다.\n└ 9번 키: 파쿠르를 포기합니다."
   give-up-parkour: "%prefix% 파쿠르를 포기하였습니다."
   prevented-command: "%prefix% 파쿠르 중에는 명령어를 입력할 수 없습니다."
 
