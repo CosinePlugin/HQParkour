@@ -9,9 +9,7 @@ import kr.cosine.parkour.registry.*
 import kr.hqservice.framework.global.core.component.Service
 import kr.hqservice.giftbox.api.GiftBoxAPI
 import org.bukkit.Location
-import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.PluginManager
 
 @Service
@@ -21,7 +19,7 @@ class ParkourService(
     private val messageRegistry: MessageRegistry,
     private val announceRegistry: AnnounceRegistry,
     private val parkourRegistry: ParkourRegistry,
-    private val parkourRankingRegistry: ParkourRankingRegistry
+    private val parkourRankingHolderRegistry: ParkourRankingHolderRegistry
 ) {
 
     private val giftBoxFactory by lazy { GiftBoxAPI.getFacto() }
@@ -72,7 +70,7 @@ class ParkourService(
                 }
             }
 
-            1 -> {
+            8 -> {
                 val waitParkourPoint = parkour.getParkourPoint(Point.WAIT)
                 waitParkourPoint.getPointLocation().teleport(player, plusY = 0.0)
                 parkour.removeParkourPlayer(playerUniqueId)
@@ -151,6 +149,7 @@ class ParkourService(
 
     private fun stepEndPoint(player: Player, location: Location) {
         val parkour = parkourRegistry.findParkourByLocation(Point.END, location) ?: return
+        val key = parkour.key
 
         val playerUniqueId = player.uniqueId
         val parkourPlayer = parkour.findParkourPlayer(playerUniqueId) ?: return
@@ -173,10 +172,13 @@ class ParkourService(
             chat.sendMessage(player, replaceFunction)
             title.sendTitle(player, replaceFunction)
         }
-        parkourRankingRegistry.setRanking(playerUniqueId, time)
+        val rankingHolder = parkourRankingHolderRegistry.getRankingHolder(key)
+        if (rankingHolder.refresh(player, time)) {
+            parkourRankingHolderRegistry.isChanged = true
+        }
 
         val reward = parkour.getReward()
-        val parkourSuccessEvent = ParkourSuccessEvent(player, parkour.key, reward, time)
+        val parkourSuccessEvent = ParkourSuccessEvent(player, key, reward, time)
         pluginManager.callEvent(parkourSuccessEvent)
         if (parkourSuccessEvent.isCancelled || reward == null) return
 

@@ -1,6 +1,6 @@
 name: HQParkour
 main: kr.cosine.parkour.HQParkour
-version: 1.1.0
+version: 1.2.0
 api-version: 1.17
 author: Cosine_A
 depend:
